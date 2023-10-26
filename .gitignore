@@ -1,3 +1,7 @@
+# large scRNA-seq files, lets not upload them and add scripts to download them with links
+**/*.tar
+*.gz
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
