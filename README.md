@@ -19,13 +19,14 @@ The benchmark is a collection of scRNA-seq datasets and their analysis. Each dat
 
 Dataset is a .json file that looks like this:
 ```python
-{'case_id': 1,
- 'case_name': 'Case 1: Cell type identification',
- 'case_description': 'Identify cell types in a single cell RNA-seq dataset',
- 'path_to_inputs': 'path/to/inputs',
- 'research_question': 'What are the cell types in this dataset?',
- 'research_conclusion': 'path/to/outputs',
- 'source_link': 'link/to/data',
- 'case_data': 'path/to/data', 
- 'eval_metric': 'metric_name',}
+{'metadata':[{
+            'case_name': 'Case 1: Cell type identification',
+            'case_description': 'Identify cell types in a single cell RNA-seq dataset',
+            'path_to_inputs': 'path/to/inputs',
+            'research_question': 'What are the cell types in this dataset?',
+            'research_conclusion': 'path/to/outputs',
+            'source_link': 'link/to/data',
+            'case_data': 'path/to/data', 
+            'eval_metric': 'metric_name',}],
+ 'case_id': [1]}
  ```
