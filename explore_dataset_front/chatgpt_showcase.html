@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT Outputs Showcase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .output-container {
+            width: 60%;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        pre {
+            background-color: #eee;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .arrow {
+            font-size: 2em;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .prompt {
+            background-color: #eee;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+        }
+
+        .output {
+            display: none;
+        }
+
+        .output.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="output-container">
+    <div class="prompt">ChatGPT Prompt: <span>Your question or prompt here...</span></div>
+    <div class="navigation">
+        <span class="arrow left">&lt;</span>
+        <span class="arrow right">&gt;</span>
+    </div>
+    <div id="output">
+        <!-- The content will be injected here -->
+    </div>
+</div>
+
+<script>
+    const outputContainer = document.getElementById('output');
+
+    function formatOutput(content) {
+        const outputs = content.split('---');
+        outputs.forEach((outputContent, idx) => {
+            const outputDiv = document.createElement('div');
+            outputDiv.className = 'output' + (idx === 0 ? ' active' : '');
+
+            const parts = outputContent.split('```');
+            parts.forEach((part, index) => {
+                if (index % 2 === 0) {
+                    const paragraphs = part.trim().split('\n\n').map(p => `<p>${p}</p>`).join('');
+                    outputDiv.innerHTML += paragraphs;
+                } else {
+                    const codeBlock = `<pre>${part.trim()}</pre>`;
+                    outputDiv.innerHTML += codeBlock;
+                }
+            });
+
+            outputContainer.appendChild(outputDiv);
+        });
+    }
+
+    fetch('content.txt')
+        .then(response => response.text())
+        .then(data => {
+            formatOutput(data);
+        });
+
+    let outputs = [];
+    setTimeout(() => {
+        outputs = document.querySelectorAll('.output');
+    }, 100);
+
+    let currentIndex = 0;
+    document.querySelector('.arrow.left').addEventListener('click', function() {
+        outputs[currentIndex].classList.remove('active');
+        currentIndex--;
+        if (currentIndex < 0) currentIndex = outputs.length - 1;
+        outputs[currentIndex].classList.add('active');
+    });
+
+    document.querySelector('.arrow.right').addEventListener('click', function() {
+        outputs[currentIndex].classList.remove('active');
+        currentIndex++;
+        if (currentIndex >= outputs.length) currentIndex = 0;
+        outputs[currentIndex].classList.add('active');
+    });
+</script>
+
+</body>
+</html>
